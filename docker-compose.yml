@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 7000:7000
+    volumes:
+      - ./src:/app/src
+    environment:
+      POSTGRES_HOST: db
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: test_api
+    volumes:
+      - volume_name:/var/lib/postgresql/data
+
+volumes:
+  volume_name: {}
+
